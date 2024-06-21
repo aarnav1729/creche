@@ -5,7 +5,6 @@ function CaptureImage({ onAddEntry }) {
   const [name, setName] = useState('');
   const [image, setImage] = useState(null);
   const [inTime, setInTime] = useState('');
-  const [outTime, setOutTime] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,7 +12,6 @@ function CaptureImage({ onAddEntry }) {
     formData.append('name', name);
     formData.append('image', image);
     formData.append('inTime', inTime);
-    formData.append('outTime', outTime);
 
     try {
       const response = await axios.post('http://localhost:9000/api/attendance', formData, {
@@ -21,10 +19,13 @@ function CaptureImage({ onAddEntry }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert('Entry successful');
+      alert('Entry saved successfully');
       onAddEntry(response.data);
+      setName('');
+      setImage(null);
+      setInTime('');
     } catch (error) {
-      console.error('Error recording attendance:', error);
+      console.error('Error saving entry:', error);
     }
   };
 
@@ -61,21 +62,11 @@ function CaptureImage({ onAddEntry }) {
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Out Time:</label>
-          <input
-            type="time"
-            value={outTime}
-            onChange={(e) => setOutTime(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded"
-            required
-          />
-        </div>
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
-          Submit
+          Save
         </button>
       </form>
     </div>

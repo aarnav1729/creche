@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import CaptureImage from './components/CaptureImage';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
 
 function App() {
   const [attendanceList, setAttendanceList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get('http://localhost:9000/api/attendance');
+      setAttendanceList(result.data);
+    };
+    fetchData();
+  }, []);
 
   const addAttendanceEntry = (entry) => {
     setAttendanceList([...attendanceList, entry]);

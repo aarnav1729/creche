@@ -49,3 +49,14 @@ exports.getAttendance = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.deleteAttendance = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Attendance.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Attendance record deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting attendance:', error);
+    res.status(500).json({ error: error.message });
+  }
+};

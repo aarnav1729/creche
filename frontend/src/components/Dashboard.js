@@ -11,7 +11,7 @@ function Dashboard({ attendanceList }) {
   }, [attendanceList]);
 
   const handleUpdateEntry = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
     try {
       const formData = new FormData();
       formData.append('id', editingEntry._id);
@@ -46,6 +46,15 @@ function Dashboard({ attendanceList }) {
     }));
   };
 
+  const handleDeleteEntry = async (id) => {
+    try {
+      await axios.delete(`http://localhost:9000/api/attendance/${id}`);
+      setAttendanceData(attendanceData.filter(entry => entry._id !== id));
+    } catch (error) {
+      console.error('Error deleting entry:', error);
+    }
+  };
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Attendance Dashboard</h2>
@@ -72,9 +81,17 @@ function Dashboard({ attendanceList }) {
                 <td className="py-2 px-4 border-b">
                   <button
                     onClick={() => handleEditEntry(attendance)}
-                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2"
+                    style={{ width: '75px' }}
                   >
                     Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteEntry(attendance._id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    style={{ width: '75px' }}
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>

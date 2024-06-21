@@ -62,37 +62,39 @@ function Dashboard({ attendanceList }) {
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b">Name</th>
-              <th className="py-2 px-4 border-b">In Time</th>
-              <th className="py-2 px-4 border-b">Out Time</th>
-              <th className="py-2 px-4 border-b">Image</th>
-              <th className="py-2 px-4 border-b">Actions</th>
+              <th className="py-2 px-4 border-b text-left">Name</th>
+              <th className="py-2 px-4 border-b text-center">In Time</th>
+              <th className="py-2 px-4 border-b text-center">Out Time</th>
+              <th className="py-2 px-4 border-b text-center">Image</th>
+              <th className="py-2 px-4 border-b text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {attendanceData.map((attendance) => (
               <tr key={attendance._id}>
-                <td className="py-2 px-4 border-b">{attendance.name}</td>
-                <td className="py-2 px-4 border-b">{attendance.inTime}</td>
-                <td className="py-2 px-4 border-b">{attendance.outTime}</td>
-                <td className="py-2 px-4 border-b">
-                  <img src={`http://localhost:9000/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full" />
+                <td className="py-2 px-4 border-b text-left">{attendance.name}</td>
+                <td className="py-2 px-4 border-b text-center">{attendance.inTime}</td>
+                <td className="py-2 px-4 border-b text-center">{attendance.outTime}</td>
+                <td className="py-2 px-4 border-b text-center">
+                  <img src={`http://localhost:9000/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full mx-auto" />
                 </td>
-                <td className="py-2 px-4 border-b">
-                  <button
-                    onClick={() => handleEditEntry(attendance)}
-                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2"
-                    style={{ width: '75px' }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteEntry(attendance._id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                    style={{ width: '75px' }}
-                  >
-                    Delete
-                  </button>
+                <td className="py-2 px-4 border-b text-center">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center">
+                    <button
+                      onClick={() => handleEditEntry(attendance)}
+                      className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 sm:mb-0 sm:mr-2"
+                      style={{ width: '75px' }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteEntry(attendance._id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                      style={{ width: '75px' }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

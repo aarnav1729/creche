@@ -4,12 +4,14 @@ import CaptureImage from './components/CaptureImage';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
 
+const API_URL = 'https://creche-cfp6.onrender.com/api/attendance';
+
 function App() {
   const [attendanceList, setAttendanceList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('http://localhost:9000/api/attendance');
+      const result = await axios.get(API_URL);
       setAttendanceList(result.data);
     };
     fetchData();

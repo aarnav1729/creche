@@ -46,15 +46,6 @@ function Dashboard({ attendanceList }) {
     }));
   };
 
-  const handleDeleteEntry = async (id) => {
-    try {
-      await axios.delete(`http://localhost:9000/api/attendance/${id}`);
-      setAttendanceData(attendanceData.filter(entry => entry._id !== id));
-    } catch (error) {
-      console.error('Error deleting entry:', error);
-    }
-  };
-
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Attendance Dashboard</h2>
@@ -79,22 +70,13 @@ function Dashboard({ attendanceList }) {
                   <img src={`http://localhost:9000/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full mx-auto" />
                 </td>
                 <td className="py-2 px-4 border-b text-center">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center">
-                    <button
-                      onClick={() => handleEditEntry(attendance)}
-                      className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 sm:mb-0 sm:mr-2"
-                      style={{ width: '75px' }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteEntry(attendance._id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                      style={{ width: '75px' }}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => handleEditEntry(attendance)}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                    style={{ width: '75px' }}
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
             ))}

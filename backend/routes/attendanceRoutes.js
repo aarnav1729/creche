@@ -15,8 +15,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post('/', upload.single('image'), addAttendance);
+router.post('/', upload.single('image'), (req, res, next) => {
+  console.log('Received POST request with body:', req.body);
+  console.log('Received file:', req.file);
+  next();
+}, addAttendance);
+
+router.put('/update', upload.single('image'), (req, res, next) => {
+  console.log('Received PUT request with body:', req.body);
+  console.log('Received file:', req.file);
+  next();
+}, updateAttendance);
+
 router.get('/', getAttendance);
-router.put('/update', upload.single('image'), updateAttendance);
 
 module.exports = router;

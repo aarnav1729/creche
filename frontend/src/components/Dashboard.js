@@ -12,14 +12,18 @@ function Dashboard({ attendanceList, onUpdateEntry }) {
 
   const handleUpdateEntry = async (e) => {
     e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append('id', editingEntry._id);
-      formData.append('name', editForm.name);
-      formData.append('inTime', editForm.inTime);
+    const formData = new FormData();
+    formData.append('id', editingEntry._id);
+    formData.append('name', editForm.name);
+    formData.append('inTime', editForm.inTime);
+    if (editForm.outTime) {
       formData.append('outTime', editForm.outTime);
-      if (editForm.image) formData.append('image', editForm.image);
+    }
+    if (editForm.image) {
+      formData.append('image', editForm.image);
+    }
 
+    try {
       const response = await axios.put('http://localhost:9000/api/attendance/update', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -28,7 +32,7 @@ function Dashboard({ attendanceList, onUpdateEntry }) {
       onUpdateEntry(response.data);
       setEditingEntry(null);
     } catch (error) {
-      console.error('Error updating entry:', error.message);
+      console.error('Error updating entry:', error);
     }
   };
 
@@ -66,13 +70,16 @@ function Dashboard({ attendanceList, onUpdateEntry }) {
                 <td className="py-2 px-4 border-b text-center">{attendance.inTime}</td>
                 <td className="py-2 px-4 border-b text-center">{attendance.outTime}</td>
                 <td className="py-2 px-4 border-b text-center">
-                  <img src={`http://localhost:9000/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full mx-auto" />
+                  <img
+                    src={`http://localhost:9000/${attendance.image}`}
+                    alt={`${attendance.name}'s capture`}
+                    className="h-16 w-16 object-cover rounded-full mx-auto"
+                  />
                 </td>
                 <td className="py-2 px-4 border-b text-center">
                   <button
                     onClick={() => handleEditEntry(attendance)}
-                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
-                    style={{ width: '75px' }}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2"
                   >
                     Edit
                   </button>

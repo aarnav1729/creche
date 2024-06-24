@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CaptureImage from './components/CaptureImage';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
+import CaptureImage from './components/CaptureImage';
 
 function App() {
   const [attendanceList, setAttendanceList] = useState([]);

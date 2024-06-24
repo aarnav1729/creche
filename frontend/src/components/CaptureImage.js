@@ -25,7 +25,7 @@ function CaptureImage({ onAddEntry }) {
       setImage(null);
       setInTime('');
     } catch (error) {
-      console.error('Error saving entry:', error.message);
+      console.error('Error saving entry:', error);
     }
   };
 

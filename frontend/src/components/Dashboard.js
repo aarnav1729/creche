@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function Dashboard({ attendanceList }) {
+function Dashboard({ attendanceList, onUpdateEntry }) {
   const [attendanceData, setAttendanceData] = useState(attendanceList);
   const [editingEntry, setEditingEntry] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', inTime: '', outTime: '', image: null });
@@ -25,11 +25,10 @@ function Dashboard({ attendanceList }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      const updatedAttendance = response.data;
-      setAttendanceData(attendanceData.map(entry => entry._id === editingEntry._id ? updatedAttendance : entry));
+      onUpdateEntry(response.data);
       setEditingEntry(null);
     } catch (error) {
-      console.error('Error updating entry:', error);
+      console.error('Error updating entry:', error.message);
     }
   };
 

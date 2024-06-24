@@ -4,14 +4,12 @@ import CaptureImage from './components/CaptureImage';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
 
-const API_URL = 'https://creche-cfp6.onrender.com/api/attendance';
-
 function App() {
   const [attendanceList, setAttendanceList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(API_URL);
+      const result = await axios.get('http://localhost:9000/api/attendance');
       setAttendanceList(result.data);
     };
     fetchData();
@@ -21,11 +19,15 @@ function App() {
     setAttendanceList([...attendanceList, entry]);
   };
 
+  const updateAttendanceEntry = (updatedEntry) => {
+    setAttendanceList(attendanceList.map(entry => entry._id === updatedEntry._id ? updatedEntry : entry));
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header totalCount={attendanceList.length} />
       <CaptureImage onAddEntry={addAttendanceEntry} />
-      <Dashboard attendanceList={attendanceList} />
+      <Dashboard attendanceList={attendanceList} onUpdateEntry={updateAttendanceEntry} />
     </div>
   );
 }

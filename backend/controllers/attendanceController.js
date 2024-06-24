@@ -2,24 +2,29 @@ const Attendance = require('../models/Attendance');
 
 exports.addAttendance = async (req, res) => {
   try {
-    console.log('Add Attendance Body:', req.body);
-    console.log('Add Attendance File:', req.file);
-    
+    console.log('Request Body:', req.body);
+    console.log('File:', req.file);
+
     const { name, inTime } = req.body;
     const image = req.file ? req.file.path : null;
+    
+    if (!name || !inTime || !image) {
+      return res.status(400).json({ error: 'Name, inTime, and image are required' });
+    }
+
     const newAttendance = new Attendance({ name, image, inTime });
     await newAttendance.save();
     res.status(201).json(newAttendance);
   } catch (error) {
-    console.error('Error adding attendance:', error);
+    console.error('Error adding attendance:', error.message);
     res.status(500).json({ error: error.message });
   }
 };
 
 exports.updateAttendance = async (req, res) => {
   try {
-    console.log('Update Attendance Body:', req.body);
-    console.log('Update Attendance File:', req.file);
+    console.log('Request Body:', req.body);
+    console.log('File:', req.file);
 
     const { id, name, inTime, outTime } = req.body;
     const updateData = { name, inTime, outTime };
@@ -28,14 +33,14 @@ exports.updateAttendance = async (req, res) => {
       updateData.image = req.file.path;
     }
 
-    const attendance = await Attendance.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true }
-    );
+    const attendance = await Attendance.findByIdAndUpdate(id, updateData, { new: true });
+    if (!attendance) {
+      return res.status(404).json({ error: 'Attendance not found' });
+    }
+
     res.status(200).json(attendance);
   } catch (error) {
-    console.error('Error updating attendance:', error);
+    console.error('Error updating attendance:', error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -45,18 +50,7 @@ exports.getAttendance = async (req, res) => {
     const attendance = await Attendance.find();
     res.status(200).json(attendance);
   } catch (error) {
-    console.error('Error fetching attendance:', error);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.deleteAttendance = async (req, res) => {
-  try {
-    const { id } = req.params;
-    await Attendance.findByIdAndDelete(id);
-    res.status(200).json({ message: 'Attendance record deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting attendance:', error);
+    console.error('Error fetching attendance:', error.message);
     res.status(500).json({ error: error.message });
   }
 };

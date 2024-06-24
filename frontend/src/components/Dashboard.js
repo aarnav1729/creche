@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function Dashboard({ attendanceList, onUpdateEntry }) {
+function Dashboard({ attendanceList }) {
   const [attendanceData, setAttendanceData] = useState(attendanceList);
   const [editingEntry, setEditingEntry] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', inTime: '', outTime: '', image: null });
@@ -12,24 +12,21 @@ function Dashboard({ attendanceList, onUpdateEntry }) {
 
   const handleUpdateEntry = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('id', editingEntry._id);
-    formData.append('name', editForm.name);
-    formData.append('inTime', editForm.inTime);
-    if (editForm.outTime) {
-      formData.append('outTime', editForm.outTime);
-    }
-    if (editForm.image) {
-      formData.append('image', editForm.image);
-    }
-
     try {
+      const formData = new FormData();
+      formData.append('id', editingEntry._id);
+      formData.append('name', editForm.name);
+      formData.append('inTime', editForm.inTime);
+      formData.append('outTime', editForm.outTime);
+      if (editForm.image) formData.append('image', editForm.image);
+
       const response = await axios.put('http://localhost:9000/api/attendance/update', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      onUpdateEntry(response.data);
+      const updatedAttendance = response.data;
+      setAttendanceData(attendanceData.map(entry => entry._id === editingEntry._id ? updatedAttendance : entry));
       setEditingEntry(null);
     } catch (error) {
       console.error('Error updating entry:', error);
@@ -49,6 +46,15 @@ function Dashboard({ attendanceList, onUpdateEntry }) {
     }));
   };
 
+  const handleDeleteEntry = async (id) => {
+    try {
+      await axios.delete(`http://localhost:9000/api/attendance/${id}`);
+      setAttendanceData(attendanceData.filter(entry => entry._id !== id));
+    } catch (error) {
+      console.error('Error deleting entry:', error);
+    }
+  };
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Attendance Dashboard</h2>
@@ -56,32 +62,36 @@ function Dashboard({ attendanceList, onUpdateEntry }) {
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b text-left">Name</th>
-              <th className="py-2 px-4 border-b text-center">In Time</th>
-              <th className="py-2 px-4 border-b text-center">Out Time</th>
-              <th className="py-2 px-4 border-b text-center">Image</th>
-              <th className="py-2 px-4 border-b text-center">Actions</th>
+              <th className="py-2 px-4 border-b">Name</th>
+              <th className="py-2 px-4 border-b">In Time</th>
+              <th className="py-2 px-4 border-b">Out Time</th>
+              <th className="py-2 px-4 border-b">Image</th>
+              <th className="py-2 px-4 border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
             {attendanceData.map((attendance) => (
               <tr key={attendance._id}>
-                <td className="py-2 px-4 border-b text-left">{attendance.name}</td>
-                <td className="py-2 px-4 border-b text-center">{attendance.inTime}</td>
-                <td className="py-2 px-4 border-b text-center">{attendance.outTime}</td>
-                <td className="py-2 px-4 border-b text-center">
-                  <img
-                    src={`http://localhost:9000/${attendance.image}`}
-                    alt={`${attendance.name}'s capture`}
-                    className="h-16 w-16 object-cover rounded-full mx-auto"
-                  />
+                <td className="py-2 px-4 border-b">{attendance.name}</td>
+                <td className="py-2 px-4 border-b">{attendance.inTime}</td>
+                <td className="py-2 px-4 border-b">{attendance.outTime}</td>
+                <td className="py-2 px-4 border-b">
+                  <img src={`http://localhost:9000/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full" />
                 </td>
-                <td className="py-2 px-4 border-b text-center">
+                <td className="py-2 px-4 border-b">
                   <button
                     onClick={() => handleEditEntry(attendance)}
                     className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2"
+                    style={{ width: '75px' }}
                   >
                     Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteEntry(attendance._id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    style={{ width: '75px' }}
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>

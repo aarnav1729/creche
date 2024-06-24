@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CaptureImage from './components/CaptureImage';
 import Dashboard from './components/Dashboard';
 import Header from './components/Header';
-import CaptureImage from './components/CaptureImage';
 
 function App() {
   const [attendanceList, setAttendanceList] = useState([]);
@@ -19,15 +19,11 @@ function App() {
     setAttendanceList([...attendanceList, entry]);
   };
 
-  const updateAttendanceEntry = (updatedEntry) => {
-    setAttendanceList(attendanceList.map(entry => entry._id === updatedEntry._id ? updatedEntry : entry));
-  };
-
   return (
     <div className="min-h-screen bg-gray-100">
       <Header totalCount={attendanceList.length} />
       <CaptureImage onAddEntry={addAttendanceEntry} />
-      <Dashboard attendanceList={attendanceList} onUpdateEntry={updateAttendanceEntry} />
+      <Dashboard attendanceList={attendanceList} />
     </div>
   );
 }

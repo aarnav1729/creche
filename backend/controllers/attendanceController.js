@@ -2,14 +2,11 @@ const Attendance = require('../models/Attendance');
 
 exports.addAttendance = async (req, res) => {
   try {
+    console.log('Add Attendance Body:', req.body);
+    console.log('Add Attendance File:', req.file);
+    
     const { name, inTime } = req.body;
     const image = req.file ? req.file.path : null;
-
-    if (!name || !inTime || !image) {
-      console.error('Validation error: Name, inTime, and image are required');
-      return res.status(400).json({ error: 'Name, inTime, and image are required' });
-    }
-
     const newAttendance = new Attendance({ name, image, inTime });
     await newAttendance.save();
     res.status(201).json(newAttendance);
@@ -21,23 +18,21 @@ exports.addAttendance = async (req, res) => {
 
 exports.updateAttendance = async (req, res) => {
   try {
-    const { id, name, inTime, outTime } = req.body;
-    const updateData = { name, inTime };
+    console.log('Update Attendance Body:', req.body);
+    console.log('Update Attendance File:', req.file);
 
-    if (outTime) {
-      updateData.outTime = outTime;
-    }
+    const { id, name, inTime, outTime } = req.body;
+    const updateData = { name, inTime, outTime };
 
     if (req.file) {
       updateData.image = req.file.path;
     }
 
-    const attendance = await Attendance.findByIdAndUpdate(id, updateData, { new: true });
-    if (!attendance) {
-      console.error('Attendance not found');
-      return res.status(404).json({ error: 'Attendance not found' });
-    }
-
+    const attendance = await Attendance.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true }
+    );
     res.status(200).json(attendance);
   } catch (error) {
     console.error('Error updating attendance:', error);
@@ -51,6 +46,17 @@ exports.getAttendance = async (req, res) => {
     res.status(200).json(attendance);
   } catch (error) {
     console.error('Error fetching attendance:', error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deleteAttendance = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Attendance.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Attendance record deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting attendance:', error);
     res.status(500).json({ error: error.message });
   }
 };

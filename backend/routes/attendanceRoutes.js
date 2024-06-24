@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { addAttendance, getAttendance, updateAttendance } = require('../controllers/attendanceController');
+const { addAttendance, getAttendance, updateAttendance, deleteAttendance } = require('../controllers/attendanceController');
 
 const router = express.Router();
 
@@ -15,18 +15,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post('/', upload.single('image'), (req, res, next) => {
-  console.log('Received POST request with body:', req.body);
-  console.log('Received file:', req.file);
-  next();
-}, addAttendance);
-
-router.put('/update', upload.single('image'), (req, res, next) => {
-  console.log('Received PUT request with body:', req.body);
-  console.log('Received file:', req.file);
-  next();
-}, updateAttendance);
-
+router.post('/', upload.single('image'), addAttendance);
 router.get('/', getAttendance);
+router.put('/update', upload.single('image'), updateAttendance);
+router.delete('/:id', deleteAttendance); // Ensure this line is correct
 
 module.exports = router;

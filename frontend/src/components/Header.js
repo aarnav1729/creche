@@ -1,57 +1,18 @@
 import React from 'react';
-import { Autocomplete, Group, Burger } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconSearch } from '@tabler/icons-react';
-import { MantineLogo } from '@mantine/core';
+import { Group, Header as MantineHeader, Container, Title, Text } from '@mantine/core';
 import './HeaderSearch.css';
 
-const links = [
-  { link: '/about', label: 'Features' },
-  { link: '/pricing', label: 'Pricing' },
-  { link: '/learn', label: 'Learn' },
-  { link: '/community', label: 'Community' },
-];
-
-function Header({ totalCount }) {
-  const [opened, { toggle }] = useDisclosure(false);
-
-  const items = links.map((link) => (
-    <a
-      key={link.label}
-      href={link.link}
-      className="link"
-      onClick={(event) => event.preventDefault()}
-    >
-      {link.label}
-    </a>
-  ));
-
+function CustomHeader({ totalCount }) {
   return (
-    <header className="header">
-      <div className="inner">
+    <MantineHeader height={60} p="xs" className="header">
+      <Container className="inner">
+        <Title order={2}>Creche Dashboard</Title>
         <Group>
-          <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
-          <MantineLogo size={28} />
+          <Text size="lg" weight={500}>Total Count: {totalCount}</Text>
         </Group>
-
-        <Group>
-          <Group ml={50} gap={5} className="links" visibleFrom="sm">
-            {items}
-          </Group>
-          <Autocomplete
-            className="search"
-            placeholder="Search"
-            icon={<IconSearch size={16} stroke={1.5} />}
-            data={['React', 'Angular', 'Vue', 'Next.js', 'Riot.js', 'Svelte', 'Blitz.js']}
-            visibleFrom="xs"
-          />
-        </Group>
-        <Group>
-          <span className="text-xl">Total Count: {totalCount}</span>
-        </Group>
-      </div>
-    </header>
+      </Container>
+    </MantineHeader>
   );
 }
 
-export default Header;
+export default CustomHeader;

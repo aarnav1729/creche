@@ -56,7 +56,6 @@ function Dashboard({ attendanceList }) {
               <th className="py-2 px-4 border-b text-left">Name</th>
               <th className="py-2 px-4 border-b text-center">In Time</th>
               <th className="py-2 px-4 border-b text-center">Out Time</th>
-              <th className="py-2 px-4 border-b text-center">Image</th>
               <th className="py-2 px-4 border-b text-center">Actions</th>
             </tr>
           </thead>
@@ -66,9 +65,6 @@ function Dashboard({ attendanceList }) {
                 <td className="py-2 px-4 border-b text-left">{attendance.name}</td>
                 <td className="py-2 px-4 border-b text-center">{attendance.inTime}</td>
                 <td className="py-2 px-4 border-b text-center">{attendance.outTime}</td>
-                <td className="py-2 px-4 border-b text-center">
-                  <img src={`https://creche-cfp6.onrender.com/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full mx-auto" />
-                </td>
                 <td className="py-2 px-4 border-b text-center">
                   <button
                     onClick={() => handleEditEntry(attendance)}
@@ -116,16 +112,6 @@ function Dashboard({ attendanceList }) {
                   type="time"
                   name="outTime"
                   value={editForm.outTime}
-                  onChange={handleFormChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Image:</label>
-                <input
-                  type="file"
-                  name="image"
-                  accept="image/*"
                   onChange={handleFormChange}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded"
                 />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CaptureImage from './components/CaptureImage';
 import Dashboard from './components/Dashboard';
-import CustomHeader from './components/Header';
+import Header from './components/Header';
 
 function App() {
   const [attendanceList, setAttendanceList] = useState([]);
@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <CustomHeader totalCount={attendanceList.length} />
+      <Header totalCount={attendanceList.length} />
       <CaptureImage onAddEntry={addAttendanceEntry} />
       <Dashboard attendanceList={attendanceList} />
     </div>

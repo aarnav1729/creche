@@ -20,7 +20,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 font-sans">
       <Header totalCount={attendanceList.length} />
       <CaptureImage onAddEntry={addAttendanceEntry} />
       <Dashboard attendanceList={attendanceList} />

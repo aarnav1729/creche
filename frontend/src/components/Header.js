@@ -1,22 +1,21 @@
 import React from 'react';
-import { AppShell, Header, Container, Title, Group, Text } from '@mantine/core';
+import { AppShell, Container, Title, Group, Text } from '@mantine/core';
 
 function CustomHeader({ totalCount }) {
   return (
     <AppShell
       padding="md"
       header={
-        <Header height={60} p="xs">
-          <Container className="flex justify-between items-center">
-            <Title order={2}>Creche Dashboard</Title>
+        <div style={{ backgroundColor: '#1A202C', padding: '10px 20px' }}>
+          <Container className="flex justify-between items-center" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Title order={2} style={{ color: 'white' }}>Creche Dashboard</Title>
             <Group>
-              <Text size="lg" weight={500}>Total Count: {totalCount}</Text>
+              <Text size="lg" weight={500} style={{ color: 'white' }}>Total Count: {totalCount}</Text>
             </Group>
           </Container>
-        </Header>
+        </div>
       }
     >
-      {/* You can add other layout components here if needed */}
     </AppShell>
   );
 }

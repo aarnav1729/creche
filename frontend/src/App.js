@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('http://localhost:9000/api/attendance');
+      const result = await axios.get('https://creche-cfp6.onrender.com/api/attendance');
       setAttendanceList(result.data);
     };
     fetchData();

@@ -14,7 +14,7 @@ function CaptureImage({ onAddEntry }) {
     formData.append('inTime', inTime);
 
     try {
-      const response = await axios.post('http://localhost:9000/api/attendance', formData, {
+      const response = await axios.post('https://creche-cfp6.onrender.com/api/attendance', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

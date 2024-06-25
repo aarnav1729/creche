@@ -20,7 +20,7 @@ function Dashboard({ attendanceList }) {
       formData.append('outTime', editForm.outTime);
       if (editForm.image) formData.append('image', editForm.image);
 
-      const response = await axios.put('http://localhost:9000/api/attendance/update', formData, {
+      const response = await axios.put('https://creche-cfp6.onrender.com/api/attendance/update', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -67,7 +67,7 @@ function Dashboard({ attendanceList }) {
                 <td className="py-2 px-4 border-b text-center">{attendance.inTime}</td>
                 <td className="py-2 px-4 border-b text-center">{attendance.outTime}</td>
                 <td className="py-2 px-4 border-b text-center">
-                  <img src={`http://localhost:9000/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full mx-auto" />
+                  <img src={`https://creche-cfp6.onrender.com/${attendance.image}`} alt={`${attendance.name}'s capture`} className="h-16 w-16 object-cover rounded-full mx-auto" />
                 </td>
                 <td className="py-2 px-4 border-b text-center">
                   <button

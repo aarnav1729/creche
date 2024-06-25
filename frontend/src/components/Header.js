@@ -1,12 +1,17 @@
 import React from 'react';
+import { Header, Container, Title, Group, Text } from '@mantine/core';
 
-function Header({ totalCount }) {
+function CustomHeader({ totalCount }) {
   return (
-    <header className="bg-blue-500 text-white p-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">Creche Dashboard</h1>
-      <span className="text-xl">{totalCount}</span>
-    </header>
+    <Header height={60} p="xs">
+      <Container className="flex justify-between items-center">
+        <Title order={2}>Creche Dashboard</Title>
+        <Group>
+          <Text size="lg" weight={500}>Total Count: {totalCount}</Text>
+        </Group>
+      </Container>
+    </Header>
   );
 }
 
-export default Header;
+export default CustomHeader;

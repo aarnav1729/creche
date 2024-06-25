@@ -16,7 +16,7 @@ function App() {
   }, []);
 
   const addAttendanceEntry = (entry) => {
-    setAttendanceList([...attendanceList, entry]);
+    setAttendanceList([entry,...attendanceList]);
   };
 
   return (

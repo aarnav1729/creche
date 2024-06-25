@@ -47,7 +47,6 @@ function CaptureImage({ onAddEntry }) {
           <input
             type="file"
             accept="image/*"
-            capture="environment"
             onChange={(e) => setImage(e.target.files[0])}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded"
             required

@@ -1,18 +1,16 @@
 import React from 'react';
-import { Group, Header as MantineHeader, Container, Title, Text } from '@mantine/core';
-import './HeaderSearch.css';
 
-function CustomHeader({ totalCount }) {
+function Header({ totalCount }) {
   return (
-    <MantineHeader height={60} p="xs" className="header">
-      <Container className="inner">
-        <Title order={2}>Creche Dashboard</Title>
-        <Group>
-          <Text size="lg" weight={500}>Total Count: {totalCount}</Text>
-        </Group>
-      </Container>
-    </MantineHeader>
+    <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Creche Dashboard</h1>
+        <div className="flex items-center">
+          <span className="text-lg font-medium">Total Count: {totalCount}</span>
+        </div>
+      </div>
+    </header>
   );
 }
 
-export default CustomHeader;
+export default Header;
